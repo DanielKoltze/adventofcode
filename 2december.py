@@ -29,8 +29,6 @@ def calc():
             result += 6
     print(result)
 
-
-
 def calcHand(opponent,output):
     #win
     answer = ""
