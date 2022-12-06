@@ -1,43 +1,25 @@
 file = open("5december.txt","r")
 lines = file.readlines()
 
-def loadCrates():
-    data = []
-    data2 = []
-    while(lines[0] != '\n'):
-        placeholder = lines.pop(0)
-        list = []
-        charNumber = 0
-        while placeholder != '':
-            list.append(placeholder[charNumber:charNumber+3])
-            placeholder = placeholder[4:]
-        data2.append(list)
-    data2.pop()
-    for i in range(len(data2)):
-        list = []
-        for j in range(len(data2[i])):
-            list.append(data2[j][i])
-        data.append(list)
-    for list in data:
-       removeEmpty(list,"   ")
-    return data
-
-def removeEmpty(list,empty):
-    while empty in list:
-        list.remove(empty)
-
-
-
 def calc():
-    data = loadCrates()
+    data = assignCrates()
     lines.pop(0)
     for line in lines:
-        move = int(line[5:6])
-        fro = int(line[12:13])-1
-        to = int(line[17:18])-1
+        line = line.replace("move","")
+        line = line.replace("from","")
+        line = line.replace("to","")
+        line = line.replace("\n","")
+        line = line.strip()
+        list = line.split(" ")
+        removeEmpty(list,"")
+        move = int(list[0])
+        fro = int(list[1])-1
+        to = int(list[2])-1
+        placeholder = []
         for i in range(move):
-            parse = data[fro].pop(0)
-            data[to].insert(0,parse)
+            placeholder.append(data[fro].pop(0))
+        for i in range(len(placeholder)):
+            data[to].insert(0,placeholder.pop())
     result = ""
     for i in range(len(data)):
         result+=data[i].pop(0)
@@ -45,5 +27,42 @@ def calc():
     result = result.replace("]","")
     print(result)
 
-calc()
+
+def loadCrates2():
+    data = []
+    try:
+        while(lines[0] != '\n'):
+            placeholder = lines.pop(0)
+            list = []
+            charNumber = 0
+            while placeholder != '':
+                list.append(placeholder[charNumber:charNumber+3])
+                placeholder = placeholder[4:]
+            data.append(list)
+    except:
+        data.pop()
+        return data
+    data.pop()
+    return data
+
+def removeEmpty(list,empty):
+    while empty in list:
+        list.remove(empty)
+
+
+def assignCrates():
+    data = loadCrates2()
+    placeholder = []
+    for i in range(len(data[0])):
+        list = []
+        for j in range(len(data)):
+            list.append(data[j][i])
+        placeholder.append(list)
+    for list in placeholder:
+       removeEmpty(list,"   ")
+    return placeholder
     
+
+calc()
+
+
