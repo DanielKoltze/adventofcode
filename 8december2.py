@@ -19,30 +19,40 @@ def solve():
 
 def getViews(map,x,y):
     #top right bottom left. minus hvis ingen edge
-    edges = [-1,-1,-1,-1]
-    result = [0,0,0,0]
-    current = map[y][x]
+    x = 2
+    y = 3
+    result = [1,1,1,1]
+    if x == 0 or y == 0 or x == len(map[y])-1 or y == len(map)-1:
+        return []
     #get biggest top
-    '''
-    for yCheck in range(y):
-        if(edges[0] < map[yCheck][x]):
-            edges[0] = map[yCheck][x]
-    for xCheck in range(x):
-        if(edges[3] < map[y][xCheck]):
-            edges[3] = map[y][xCheck]
-
-    for xCheck in range(x+1,len(map[y])):
-         if(edges[1] < map[y][xCheck]):
-             edges[1] = map[y][xCheck]
-             
-'''
-    for yCheck in range(y+1,len(map)):
-        if():
-            edges[2] = map[yCheck][x]
+    top = True
+    for ys in range(y-1,-1,-1):
+        if map[ys][x] < map[y][x] and top and ys-1 > 0:
+            result[0] += 1
+        else:
+            top = False
+    #get biggest bottom
+    bottom = True
+    for ys in range(y+1,len(map)):
+        if map[ys][x] < map[y][x] and bottom and ys+1 < len(map):
             result[2] += 1
         else:
-            break
-    return edges
+            bottom = False
+    #get biggest right
+    right = True
+    for xs in range(x+1,len(map[y])):
+        if map[y][xs] < map[y][x] and right and xs+1 < len(map[y]):
+            result[1] += 1
+        else:
+            right = False
+    #get biggest left
+    left = True
+    for xs in range(x-1,-1,-1):
+        if map[y][xs] < map[y][x] and left and x-xs > 0:
+            result[3] += 1
+        else:
+            left = False
+    return result
    
 def treeValid(list, tree):
     for number in list:
